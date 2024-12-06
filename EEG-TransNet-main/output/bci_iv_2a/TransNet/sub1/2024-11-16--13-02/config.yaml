@@ -1,0 +1,23 @@
+batch_size: 10
+data_path: competition_data\BCICIV_2a_gdf
+epochs: 2000
+lr: 0.0002
+nGPU: 0
+network: TransNet
+network_args:
+  attn_drop: 0.5
+  depth: 4
+  embed_dim: 32
+  fc_drop: 0.5
+  fc_ratio: 4
+  num_channels: 22
+  num_classes: 4
+  num_heads: 8
+  num_samples: 1000
+  pool_size: 50
+  pool_stride: 15
+num_classes: 4
+num_segs: 8
+out_folder: output/bci_iv_2a
+preferred_device: gpu
+random_seed: 0
