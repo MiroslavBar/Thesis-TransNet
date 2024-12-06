@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e1cace3-800d-41ec-a576-edb076a70669" name="Changes" comment="init2" />
+    <list default="true" id="6e1cace3-800d-41ec-a576-edb076a70669" name="Changes" comment="init2">
+      <change afterPath="$PROJECT_DIR$/EEG-TransNet-main/README.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,18 +23,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "MiroslavBar"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MiroslavBar&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/MiroslavBar/Thienuv_navrh.git",
-    "accountId": "790dce34-9531-4ad9-bf2a-3b479a04d509"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MiroslavBar/Thienuv_navrh.git&quot;,
+    &quot;accountId&quot;: &quot;790dce34-9531-4ad9-bf2a-3b479a04d509&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -41,32 +44,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.103-train.executor": "Run",
-    "Python.baseModel.executor": "Run",
-    "Python.data_utils.executor": "Run",
-    "Python.mu_read_gdf.executor": "Run",
-    "Python.my_read_mat.executor": "Run",
-    "Python.my_script_for_mat_files.executor": "Run",
-    "Python.preprocess_data_test_2a.executor": "Run",
-    "Python.preprocess_data_test_2b.executor": "Run",
-    "Python.preprocess_data_train_2a.executor": "Run",
-    "Python.preprocess_data_train_2b.executor": "Run",
-    "Python.read_npy.executor": "Run",
-    "Python.train_transnet_2a.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/FAV/FAV/3.rocnik/bakalarka/Thienuv_navrh/EEG-TransNet-main/data/dataset",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.103-train.executor&quot;: &quot;Run&quot;,
+    &quot;Python.baseModel.executor&quot;: &quot;Run&quot;,
+    &quot;Python.data_utils.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mu_read_gdf.executor&quot;: &quot;Run&quot;,
+    &quot;Python.my_read_mat.executor&quot;: &quot;Run&quot;,
+    &quot;Python.my_script_for_mat_files.executor&quot;: &quot;Run&quot;,
+    &quot;Python.preprocess_data_test_2a.executor&quot;: &quot;Run&quot;,
+    &quot;Python.preprocess_data_test_2b.executor&quot;: &quot;Run&quot;,
+    &quot;Python.preprocess_data_train_2a.executor&quot;: &quot;Run&quot;,
+    &quot;Python.preprocess_data_train_2b.executor&quot;: &quot;Run&quot;,
+    &quot;Python.read_npy.executor&quot;: &quot;Run&quot;,
+    &quot;Python.train_transnet_2a.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/FAV/FAV/3.rocnik/bakalarka/Thienuv_navrh/EEG-TransNet-main/data/dataset&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\EEG-TransNet-main\data\dataset" />
@@ -179,6 +182,7 @@
       <workItem from="1732042651856" duration="9216000" />
       <workItem from="1732794534608" duration="6000" />
       <workItem from="1733149124803" duration="19184000" />
+      <workItem from="1733481468147" duration="482000" />
     </task>
     <task id="LOCAL-00001" summary="init2">
       <option name="closed" value="true" />
