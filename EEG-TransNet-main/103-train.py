@@ -1,12 +1,4 @@
-import os
-import numpy as np
-import torch
-from torch.utils.data import Dataset, DataLoader
-from model.baseModel import baseModel
-from model.TransNet import TransNet
-from data.dataset import eegDataset
-
-import numpy as np
+from torch.utils.data import Dataset
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -14,10 +6,6 @@ import numpy as np
 from visdom import Visdom
 from model.TransNet import TransNet
 from model.baseModel import baseModel
-import time
-import os
-import yaml
-from data.data_utils import *
 from data.dataset import eegDataset
 from utils import *
 import time
@@ -26,10 +14,20 @@ import time
 def load_csv_data(file_path):
     return np.loadtxt(file_path, delimiter=',')
 
+def convert_label(label):
+    if label == 2 or label == 3:
+        return 0
+    if label == 5 or label == 6:
+        return 1
+    if label == 8 or label == 9:
+        return 2
+    if label == 11 or label == 12:
+        return 3
+
 # Load and preprocess the data
-def prepare_dataloader(csv_dir, batch_size=32, num_samples=1000, num_channels=64, max_files=20):
+def prepare_dataloader(csv_dir, batch_size=32, num_samples=1000, num_channels=64, max_files=21):
     """
-    Prepares the train and test datasets (instances of eegDataset).
+    Prepares the train and test datasets (instances of eegDataset) with the shape [num_trials, num_channels, num_samples].
     """
     # List all files in the directory
     signal_files = sorted([f for f in os.listdir(csv_dir) if 'SIG' in f])
@@ -52,6 +50,9 @@ def prepare_dataloader(csv_dir, batch_size=32, num_samples=1000, num_channels=64
         for trial_idx in range(annotation_data.shape[0]):
             # Extract label and trial data
             trial_label = int(annotation_data[trial_idx, 0])
+            if trial_label == 1 or trial_label == 4 or trial_label == 7 or trial_label == 10:
+                continue
+            trial_label = convert_label(trial_label)
             start_idx = int(annotation_data[trial_idx, 3]) - 1
             end_idx = int(annotation_data[trial_idx, 4]) - 1
 
@@ -70,6 +71,9 @@ def prepare_dataloader(csv_dir, batch_size=32, num_samples=1000, num_channels=64
             std[std == 0] = 1  # Avoid division by zero
             trial_signal = ((trial_signal - mean) / std).astype(np.float32)
 
+            # Transpose to [num_channels, num_samples]
+            trial_signal = trial_signal.T
+
             # Add to dataset
             all_data.append(trial_signal)
             all_labels.append(trial_label)
@@ -86,8 +90,8 @@ def prepare_dataloader(csv_dir, batch_size=32, num_samples=1000, num_channels=64
     test_size = len(dataset) - train_size
     train_dataset, test_dataset = torch.utils.data.random_split(dataset, [train_size, test_size])
 
-    # Instead of returning DataLoaders, return the datasets themselves
     return train_dataset, test_dataset
+
 
 
 # Main function to train the model
@@ -97,16 +101,16 @@ def train_model():
          # Existing parameters
      # Existing parameters
     'batch_size': 64,
-    'epochs': 50,
+    'epochs': 3,
     'preferred_device': 'gpu',
     'sampling_rate': 160,
     'num_segs': 5,
     'nGPU': 1,
 
     # Parameters from the second config
-    'num_classes': 4,           # Already present in both
-    'num_channels': 64,         # Overwrites previous num_channels (64) with 22
-    'num_samples': 1000,        # Overwrites previous num_samples (1600) with 1000
+    'num_classes': 4,
+    'num_channels': 64,
+    'num_samples': 1000,
     'embed_dim': 32,
     'pool_size': 50,
     'pool_stride': 15,
