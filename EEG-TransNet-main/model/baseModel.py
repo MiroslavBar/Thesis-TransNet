@@ -55,7 +55,7 @@ class baseModel():
             cls_idx = np.where(label == cls)
             cls_data = data[cls_idx]
             data_size = cls_data.shape[0]
-            if data_size == 0 or data_size == 1:
+            if data_size == 0:# or data_size == 1:
                 continue
             temp_aug_data = np.zeros((aug_data_size, C, T))
             for i in range(aug_data_size):
@@ -78,8 +78,8 @@ class baseModel():
         return aug_data, aug_label
 
     def train_test(self, train_dataset, test_dataset):
-        train_dataloader = DataLoader(train_dataset, batch_size=self.batchsize, shuffle=True, num_workers=4)
-        test_dataloader = DataLoader(test_dataset, batch_size=self.batchsize, num_workers=4)
+        train_dataloader = DataLoader(train_dataset, batch_size=self.batchsize, shuffle=True, num_workers=0)
+        test_dataloader = DataLoader(test_dataset, batch_size=self.batchsize, num_workers=0)
 
         best_acc = 0
         avg_acc = 0
@@ -95,7 +95,7 @@ class baseModel():
                 for train_data, train_label in train_dataloader:
                     # data augmentation
                     aug_data, aug_label = self.data_augmentation(train_data, train_label)
-
+                    # aug_data, aug_label = train_data, train_label
                     train_data = torch.cat((train_data, aug_data), axis=0)
                     train_label = torch.cat((train_label, aug_label), axis=0)
 
@@ -135,7 +135,7 @@ class baseModel():
 
                     test_predicted.extend(torch.max(test_output, 1)[1].cpu().tolist())
                     test_actual.extend(test_label.cpu().tolist())
-                    test_loss += running_test_loss 
+                    test_loss += running_test_loss
 
             test_loss /= len(test_dataloader)
 
@@ -150,7 +150,7 @@ class baseModel():
                 best_kappa = test_kappa
                 best_model = copy.deepcopy(self.net.state_dict())
 
-            print('Epoch [%d] | Train Loss: %.6f  Train Accuracy: %.6f | Test Loss: %.6f  Test Accuracy: %.6f | lr: %.6f' 
+            print('Epoch [%d] | Train Loss: %.6f  Train Accuracy: %.6f | Test Loss: %.6f  Test Accuracy: %.6f | lr: %.6f'
                       %(epoch+1, train_loss, train_acc, test_loss, test_acc, self.optimizer.param_groups[0]['lr']))
             if self.log_write and epoch % 50 == 0:
                 self.log_write.write(f'Epoch [{epoch+1}] | Train Loss: {train_loss:.6f}  Train Accuracy: {train_acc:.6f} | Test Loss: {test_loss:.6f} Test Accuracy: {test_acc:.6f} Test Kappa: {test_kappa:.6f} \n')
@@ -164,4 +164,4 @@ class baseModel():
             self.log_write.write(f'The best kappa is: {best_kappa:.6f}\n')
             self.log_write.close()
 
-        torch.save(best_model, os.path.join(self.result_savepath, 'model.pth'))        
+        # torch.save(best_model, os.path.join(self.result_savepath, 'model.pth'))

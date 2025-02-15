@@ -14,7 +14,7 @@ network_args:
   fc_drop: 0.5
 
 # Data
-data_path: data/dataset/bci_iv_2a
+data_path: ../competition_dataset/bci_iv_2a
 out_folder: output/bci_iv_2a
 
 # Training

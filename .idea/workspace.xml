@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6e1cace3-800d-41ec-a576-edb076a70669" name="Changes" comment="4 dimensions instead of 2-3">
+    <list default="true" id="6e1cace3-800d-41ec-a576-edb076a70669" name="Changes" comment="working version">
+      <change afterPath="$PROJECT_DIR$/EEG-TransNet-main/103-config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EEG-TransNet-main/zcu-config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EEG-TransNet-main/zcu-train.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EEG-TransNet-main/103-train.py" beforeDir="false" afterPath="$PROJECT_DIR$/EEG-TransNet-main/103-train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EEG-TransNet-main/config/bciiv2a_transnet.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/EEG-TransNet-main/config/bciiv2a_transnet.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EEG-TransNet-main/model/baseModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/EEG-TransNet-main/model/baseModel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,11 +61,13 @@
     &quot;Python.preprocess_data_test_2b.executor&quot;: &quot;Run&quot;,
     &quot;Python.preprocess_data_train_2a.executor&quot;: &quot;Run&quot;,
     &quot;Python.preprocess_data_train_2b.executor&quot;: &quot;Run&quot;,
+    &quot;Python.preprocessing.executor&quot;: &quot;Run&quot;,
     &quot;Python.read_npy.executor&quot;: &quot;Run&quot;,
-    &quot;Python.train_transnet_2a.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.train_transnet_2a.executor&quot;: &quot;Run&quot;,
+    &quot;Python.zcu-train.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/FAV/FAV/3.rocnik/bakalarka/Thienuv_navrh/EEG-TransNet-main/data/dataset&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/FAV/FAV/3.rocnik/bakalarka/Spike-Driven-Transformer-V2-main/Spike-Driven-Transformer-V2-main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -72,12 +79,15 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\EEG-TransNet-main\data\dataset" />
-      <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\EEG-TransNet-main\data\dataset\bci_iv_2a" />
+      <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\EEG-TransNet-main\preprocessed_data_zcu_dataset" />
+      <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\EEG-TransNet-main" />
+      <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\zcu_dataset" />
+      <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\EEG-TransNet-main\zcu_dataset" />
+      <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\zcu_dataset\preprocessing" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh" />
       <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\EEG-TransNet-main" />
+      <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh" />
       <recent name="C:\FAV\FAV\3.rocnik\bakalarka\Thienuv_navrh\EEG-TransNet-main\model" />
     </key>
   </component>
@@ -97,6 +107,29 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/EEG-TransNet-main/103-train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="preprocessing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Thienuv_navrh" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/zcu_dataset/preprocessing" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/zcu_dataset/preprocessing/preprocessing.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -128,10 +161,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="zcu-train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Thienuv_navrh" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/EEG-TransNet-main" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/EEG-TransNet-main/zcu-train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.103-train" />
+        <item itemvalue="Python.zcu-train" />
         <item itemvalue="Python.train_transnet_2a" />
+        <item itemvalue="Python.preprocessing" />
       </list>
     </recent_temporary>
   </component>
@@ -162,7 +220,24 @@
       <workItem from="1733481468147" duration="1992000" />
       <workItem from="1734720943443" duration="2712000" />
       <workItem from="1736863743820" duration="22658000" />
-      <workItem from="1737402186523" duration="1763000" />
+      <workItem from="1737402186523" duration="14253000" />
+      <workItem from="1737477677057" duration="8711000" />
+      <workItem from="1737536426919" duration="43000" />
+      <workItem from="1737536480782" duration="2425000" />
+      <workItem from="1737713769682" duration="10789000" />
+      <workItem from="1737821973879" duration="5269000" />
+      <workItem from="1737884536815" duration="21766000" />
+      <workItem from="1737966361497" duration="307000" />
+      <workItem from="1737971481939" duration="4049000" />
+      <workItem from="1738092324817" duration="3179000" />
+      <workItem from="1738314935041" duration="1613000" />
+      <workItem from="1738402910969" duration="4313000" />
+      <workItem from="1738574855125" duration="115000" />
+      <workItem from="1738611354741" duration="12333000" />
+      <workItem from="1738750648211" duration="1340000" />
+      <workItem from="1738845263069" duration="36000" />
+      <workItem from="1739281137175" duration="1276000" />
+      <workItem from="1739529966874" duration="16121000" />
     </task>
     <task id="LOCAL-00001" summary="init2">
       <option name="closed" value="true" />
@@ -196,7 +271,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737230595906</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="working version">
+      <option name="closed" value="true" />
+      <created>1737453608806</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737453608807</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,25 +289,31 @@
     <MESSAGE value="init2" />
     <MESSAGE value="init3" />
     <MESSAGE value="4 dimensions instead of 2-3" />
-    <option name="LAST_COMMIT_MESSAGE" value="4 dimensions instead of 2-3" />
+    <MESSAGE value="working version" />
+    <option name="LAST_COMMIT_MESSAGE" value="working version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/EEG-TransNet-main/model/TransNet.py</url>
-          <line>127</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/EEG-TransNet-main/train_transnet_2a.py</url>
           <line>61</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/EEG-TransNet-main/103-train.py</url>
-          <line>92</line>
-          <option name="timeStamp" value="10" />
+          <url>file://$PROJECT_DIR$/zcu_dataset/preprocessing/preprocessing.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/zcu_dataset/preprocessing/preprocessing.py</url>
+          <line>96</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/EEG-TransNet-main/model/baseModel.py</url>
+          <line>96</line>
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -232,6 +321,8 @@
       <configuration name="PythonConfigurationType">
         <watch expression="train_dataset" />
         <watch expression="train_dataset" />
+        <watch expression="left" />
+        <watch expression="left.ID" />
       </configuration>
     </watches-manager>
   </component>
@@ -242,11 +333,13 @@
     <SUITE FILE_PATH="coverage/Thienuv_navrh$preprocess_data_train_2a.coverage" NAME="preprocess_data_train_2a Coverage Results" MODIFIED="1731762762190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main/data" />
     <SUITE FILE_PATH="coverage/Thienuv_navrh$my_read_mat.coverage" NAME="my_read_mat Coverage Results" MODIFIED="1731918782561" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main" />
     <SUITE FILE_PATH="coverage/Thienuv_navrh$my_script_for_mat_files.coverage" NAME="my_script_for_mat_files Coverage Results" MODIFIED="1733156492689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main" />
+    <SUITE FILE_PATH="coverage/Thienuv_navrh$preprocessing.coverage" NAME="preprocessing Coverage Results" MODIFIED="1737914660310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/zcu_dataset/preprocessing" />
+    <SUITE FILE_PATH="coverage/Thienuv_navrh$zcu_train.coverage" NAME="zcu-train Coverage Results" MODIFIED="1739610970410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main" />
     <SUITE FILE_PATH="coverage/Thienuv_navrh$baseModel.coverage" NAME="baseModel Coverage Results" MODIFIED="1731746753330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main/model" />
     <SUITE FILE_PATH="coverage/Thienuv_navrh$data_utils.coverage" NAME="data_utils Coverage Results" MODIFIED="1731768542817" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main/data" />
     <SUITE FILE_PATH="coverage/Thienuv_navrh$preprocess_data_test_2b.coverage" NAME="preprocess_data_test_2b Coverage Results" MODIFIED="1732046631912" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main/data" />
-    <SUITE FILE_PATH="coverage/Thienuv_navrh$train_transnet_2a.coverage" NAME="train_transnet_2a Coverage Results" MODIFIED="1737394819689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main" />
+    <SUITE FILE_PATH="coverage/Thienuv_navrh$train_transnet_2a.coverage" NAME="train_transnet_2a Coverage Results" MODIFIED="1738316937410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main" />
     <SUITE FILE_PATH="coverage/Thienuv_navrh$mu_read_gdf.coverage" NAME="mu_read_gdf Coverage Results" MODIFIED="1731765067392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main" />
-    <SUITE FILE_PATH="coverage/Thienuv_navrh$103_train.coverage" NAME="103-train Coverage Results" MODIFIED="1737403692569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main" />
+    <SUITE FILE_PATH="coverage/Thienuv_navrh$103_train.coverage" NAME="103-train Coverage Results" MODIFIED="1739611008492" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/EEG-TransNet-main" />
   </component>
 </project>
