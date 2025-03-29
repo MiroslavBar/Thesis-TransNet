@@ -1,10 +1,9 @@
-import os
+import argparse
+import random
 import sys
-
-import torch
+from typing import Optional, Callable, Dict, Any, Tuple, List
 import torch.nn as nn
 import torch.optim as optim
-import numpy as np
 import yaml
 
 from model.TransNet import TransNet
@@ -18,39 +17,101 @@ def load_csv_data(file_path):
     return np.loadtxt(file_path, delimiter=',')
 
 
-def convert_label(label):
-    # return four_class_labels(label)
-    return two_class_labels(label)
+def label_conversion_map(conversion_type: str) -> Optional[Callable[[int], Optional[int]]]:
+    """
+    Returns the appropriate label conversion function based on configuration.
+
+    Args:
+        conversion_type: The type of label conversion to apply.
+
+    Returns:
+        Optional function to convert labels or None if not found.
+    """
+    conversion_functions = {
+        'two_class_ME': two_class_ME_labels,
+        'two_class_MI': two_class_MI_labels,
+        'four_class_ME': four_class_ME_labels,
+        'four_class_MI': four_class_MI_labels,
+        'two_class_labels': two_class_labels,
+        'four_class_labels': four_class_labels
+    }
+    return conversion_functions.get(conversion_type)
 
 
-def two_class_labels(label):
-    # 2class movement, relax
-    if label in [2, 3, 5, 6, 8, 9, 11, 12]: return 0
-    if label in [1, 4, 7, 10]: return 1
+def two_class_labels(label: int) -> Optional[int]:
+    if label in [2, 3, 5, 6, 8, 9, 11, 12]: return 0  # Movement
+    if label in [1, 4, 7, 10]: return 1  # Relax
     return None
 
 
-def four_class_labels(label):
-    # 4class right hand, left hand, both feet, relax
-    if label in [2, 5]: return 0
-    if label in [3, 6]: return 1
-    if label in [8, 9, 11, 12]: return 2
-    if label in [1, 4, 7, 10]: return 3
-    return None  # Exclude other labels
+def two_class_MI_labels(label: int) -> Optional[int]:
+    if label in [5, 6, 11, 12]: return 0  # MI Movement
+    if label in [4, 10]: return 1  # MI Relax
+    return None
 
 
-def get_subjects(csv_dir):
-    """Extracts unique subject IDs from filenames."""
+def two_class_ME_labels(label: int) -> Optional[int]:
+    if label in [2, 3, 8, 9]: return 0  # ME Movement
+    if label in [1, 7]: return 1  # ME Relax
+    return None
+
+
+def four_class_MI_labels(label: int) -> Optional[int]:
+    if label in [5]: return 0  # MI left fist movement
+    if label in [6]: return 1  # MI right first movement
+    if label in [12]: return 2  # MI both feet movement
+    if label in [4, 10]:
+        if random.randint(1, 4) == 4:  # Reducing the amount of rest trials to balance the data
+            return 3  # MI relax
+    return None
+
+
+def four_class_ME_labels(label: int) -> Optional[int]:
+    if label in [2]: return 0  # ME left fist movement
+    if label in [3]: return 1  # ME right first movement
+    if label in [9]: return 2  # ME both feet movement
+    if label in [1, 7]: return 3  # ME relax
+    return None
+
+
+def four_class_labels(label: int) -> Optional[int]:
+    if label in [2, 5]: return 0  # Left first movement
+    if label in [3, 6]: return 1  # Right first movement
+    if label in [9, 12]: return 2  # Both feet movement
+    if label in [1, 4, 7, 10]:return 3  # Relax
+    return None
+
+
+def get_subjects(csv_dir: str) -> List[str]:
+
     subject_ids = set()
     for file in os.listdir(csv_dir):
         if 'SIG' in file:
-            subject_id = file.split('_')[1]  # Extracts "001" from "SUB_001_SIG_01"
+            subject_id = file.split('_')[1]
             subject_ids.add(subject_id)
     return sorted(subject_ids)
 
 
-def preprocess_subject(csv_dir, subject_id, num_samples=1000):
-    """Preprocess and save subject data to .npy files."""
+def preprocess_subject(
+    csv_dir: str,
+    subject_id: str,
+    config: Dict[str, Any]
+) -> Tuple[Optional[np.ndarray], Optional[np.ndarray]]:
+    """
+    Preprocess data for a specific subject.
+
+    Args:
+        csv_dir: Directory containing CSV files
+        subject_id: Subject identifier
+        config: Configuration dictionary
+
+    Returns:
+        Tuple of preprocessed data and labels, or (None, None) if no valid data
+    """
+    num_samples = config['num_samples']
+    conversion_type = config['label_conversion']
+    convert_label = label_conversion_map(conversion_type)
+
     signal_files = sorted([f for f in os.listdir(csv_dir) if f'SUB_{subject_id}_SIG' in f])
     annotation_files = sorted([f for f in os.listdir(csv_dir) if f'SUB_{subject_id}_ANN' in f])
 
@@ -99,32 +160,22 @@ def preprocess_subject(csv_dir, subject_id, num_samples=1000):
     # Save data and labels to .npy files
     return all_data, all_labels
 
+def prepare_global_dataset(config: Dict[str, Any]) -> Tuple[Optional[np.ndarray], Optional[np.ndarray]]:
+    """
+    Combine all subjects' data and prepare a global dataset.
 
-# def load_subject(csv_dir, subject_id, output_dir, num_samples=1000):
-#     """Load preprocessed data for a single subject if available; otherwise, preprocess and save it."""
-#     data_file = os.path.join(output_dir, f"SUB_{subject_id}_data.npy")
-#     labels_file = os.path.join(output_dir, f"SUB_{subject_id}_labels.npy")
-#
-#     if os.path.exists(data_file) and os.path.exists(labels_file):
-#         print(f"Loading preprocessed data for subject {subject_id}...")
-#         data = np.load(data_file)
-#         labels = np.load(labels_file)
-#     else:
-#         print(f"Preprocessing and saving data for subject {subject_id}...")
-#         data, labels = preprocess_subject(csv_dir, subject_id, num_samples)
-#     if data is None or labels is None:
-#         print(f"No valid trials found for subject {subject_id}")
-#         return None, None
-#
-#     return data, labels
+    Args:
+        config: Configuration dictionary.
 
-def prepare_global_dataset(csv_dir, num_samples=1000):
-    """Combine all subjects' data and prepare a global DataLoader."""
+    Returns:
+        Tuple of combined data and labels, or (None, None) if no valid data
+    """
+    csv_dir = config['csv_files']
     all_data, all_labels = [], []
 
     subjects = get_subjects(csv_dir)
     for subject_id in subjects:
-        data, labels = preprocess_subject(csv_dir, subject_id, num_samples)
+        data, labels = preprocess_subject(csv_dir, subject_id, config)
         if data is not None and labels is not None:
             all_data.append(data)
             all_labels.append(labels)
@@ -141,32 +192,47 @@ def prepare_global_dataset(csv_dir, num_samples=1000):
 
 
 
-def prepare_dataset(data, labels):
-    """Prepare DataLoader from data and labels."""
+def prepare_dataset(
+    data: np.ndarray,
+    labels: np.ndarray
+) -> Tuple[torch.utils.data.Dataset, torch.utils.data.Dataset]:
     dataset = eegDataset(data, labels)
     train_size = int(0.8 * len(dataset))
     test_size = len(dataset) - train_size
     return torch.utils.data.random_split(dataset, [train_size, test_size])
 
-def train_per_person(CSV_DIR, model):
-    # Subject-wise evaluation
+def train_per_person(model: baseModel, config: Dict[str, Any]) -> None:
+    """
+    Train and evaluate model for each subject individually.
+
+    Args:
+       model: Model to train
+       config: Configuration dictionary
+    """
+    CSV_DIR = config['csv_files']
     subjects = get_subjects(CSV_DIR)
     for subject_id in subjects:
         print(f"\nProcessing subject {subject_id}...\n")
 
-        data, labels = preprocess_subject(CSV_DIR, subject_id, num_samples=config['network_args']['num_samples'])
-
+        data, labels = preprocess_subject(CSV_DIR, subject_id, config)
         if data is None or labels is None:
             continue
 
         train_data, test_data = prepare_dataset(data, labels)
         model.train_test(train_data, test_data)
 
-def train_all(CSV_DIR, model):
-    # Global evaluation
+
+def train_all(model: baseModel, config: Dict[str, Any]) -> None:
+    """
+    Train and evaluate model on combined data from all subjects.
+
+    Args:
+        model: Model to train
+        config: Configuration dictionary
+    """
     print("\nProcessing global evaluation (all subjects combined)...\n")
-    data, labels = prepare_global_dataset(CSV_DIR,
-                                          num_samples=config['network_args']['num_samples'])
+
+    data, labels = prepare_global_dataset(config)
     if data is None or labels is None:
         print("No valid data found for global evaluation.")
         return
@@ -175,10 +241,13 @@ def train_all(CSV_DIR, model):
     model.train_test(train_data, test_data)
 
 
-def train_model(config):
+def train_model(config: Dict[str, Any]) -> None:
+    """
+    Initialize and train model based on configuration.
 
-    CSV_DIR = config["csv_files"]
-
+    Args:
+        config: Configuration dictionary
+    """
     net_args = config['network_args']
     net = TransNet(**net_args)
     print('Trainable Parameters in the network:', count_parameters(net))
@@ -190,16 +259,16 @@ def train_model(config):
 
     if config['strategy'] == 'per_person':
         # Subject-wise evaluation
-        train_per_person(CSV_DIR, model)
+        train_per_person(model, config)
 
     elif config['strategy'] == 'all':
         # Global evaluation
-        train_all(CSV_DIR, model)
+        train_all(model, config)
 
     else:
         print(f"Invalid strategy: {config['strategy']}. Use 'subject' or 'global'.")
 
-def load_config(config_path):
+def load_config(config_path: str) -> Dict[str, Any]:
     try:
         with open(config_path, "r") as file:
             config = yaml.safe_load(file)
@@ -211,7 +280,15 @@ def load_config(config_path):
         print(f"Error parsing YAML file: {e}")
         sys.exit()
 
+def main() -> None:
+    parser = argparse.ArgumentParser(description='EEG Classification Model')
+    parser.add_argument('--config', default='103-config.yaml', help='Path to configuration file')
+    args = parser.parse_args()
+
+    # Configure GPU based on configuration
+    config = load_config(args.config)
+    train_model(config)
+
 
 if __name__ == '__main__':
-    config = load_config("103-config.yaml")
-    train_model(config)
+    main()

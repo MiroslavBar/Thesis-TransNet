@@ -2,18 +2,26 @@
 csv_files: "../103_data/eegmmidb"
 
 #training
+label_conversion: "two_class_ME"  # Options: two_class_ME,
+#                                            two_class_MI,
+#                                            four_class_ME,
+#                                            four_class_MI,
+#                                            four_class_labels,
+#                                            two_class_labels
+
 strategy: "per_person"  # Options: "all", "per_person"
 batch_size: 64
 epochs: 7
 lr: 0.0002
 preferred_device: gpu
 nGPU: 0
+num_samples: 700
 
 #model
 network_args:
   num_classes: 2
   num_channels: 64
-  num_samples: 1000
+  num_samples: 700
   embed_dim: 32
   pool_size: 50
   pool_stride: 15

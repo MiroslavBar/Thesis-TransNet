@@ -31,6 +31,7 @@ def dictToYaml(filePath, dictToWrite):
         yaml.dump(dictToWrite, f, allow_unicode=True)
     f.close()
 
+
 def main(config):
     data_path = config['data_path']
     out_folder = config['out_folder']
