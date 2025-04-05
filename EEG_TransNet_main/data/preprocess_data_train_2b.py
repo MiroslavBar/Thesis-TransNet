@@ -15,7 +15,7 @@ init_block_size = 1000
 data_path = 'C:/FAV/FAV/3.rocnik/bakalarka/competition_data/BCICIV_2b_gdf'
 all_data_files = [['B0'+str(i)+'0'+str(j)+'T.gdf' for j in range(1,4)] for i in range(1,10)]
 
-label_path = '/EEG-TransNet-main/data/dataset/bci_iv_2b_mat'
+label_path = '/EEG_TransNet_main/data/dataset/bci_iv_2b_mat'
 all_label_files = [['B0'+str(i)+'0'+str(j)+'T.mat' for j in range(1,4)] for i in range(1,10)]
 
 save_path = 'dataset/bci_iv_2b/raw'

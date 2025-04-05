@@ -1,8 +1,7 @@
 #data
-data_file_binary: "../preprocessed_data_zcu_dataset/data_time_series_binary.npy"
-labels_file_binary: "../preprocessed_data_zcu_dataset/labels_time_series_binary.npy"
-data_file_multiclass: "../preprocessed_data_zcu_dataset/data_time_series_multiclass.npy"
-labels_file_multiclass: "../preprocessed_data_zcu_dataset/labels_time_series_multiclass.npy"
+
+data_dir: "C:/FAV/FAV/3.rocnik/bakalarka/ZCU_dataset/data"
+
 
 #training
 strategy: "per_person"  # Options: "all", "per_person"

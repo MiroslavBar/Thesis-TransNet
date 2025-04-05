@@ -2,15 +2,24 @@ import argparse
 import sys
 from typing import Tuple, Optional, Dict, Any, List
 
+import mne
 import torch.nn as nn
 import torch.optim as optim
 import yaml
-
-from model.TransNet import TransNet
-from model.baseModel import baseModel
-from data.dataset import eegDataset
 import numpy as np
 import torch
+
+from data_loading import file_manager
+from data_loading.EpochEvent import EpochEvent
+from data_loading.MovementType import MovementType
+from data_loading.loading_utils import find_min_sampling_frequency, get_epochs, drop_half_resting, \
+    transform_data_representation
+
+from EEG_TransNet_main.model.TransNet import TransNet
+from EEG_TransNet_main.model.baseModel import baseModel
+from EEG_TransNet_main.data.dataset import eegDataset
+
+
 
 
 def load_config(config_path: str) -> Dict[str, Any]:
@@ -26,21 +35,97 @@ def load_config(config_path: str) -> Dict[str, Any]:
         sys.exit()
 
 
-def load_npy_files(data_file: str, labels_file: str) -> Tuple[Optional[List[np.ndarray]], Optional[List[np.ndarray]]]:
-    try:
-        data = np.load(data_file, allow_pickle=True)
-        print(f"Data loaded successfully from {data_file}. Shape: {data.shape}")
+# def load_npy_files(data_file: str, labels_file: str) -> Tuple[Optional[List[np.ndarray]], Optional[List[np.ndarray]]]:
+#     try:
+#         data = np.load(data_file, allow_pickle=True)
+#         print(f"Data loaded successfully from {data_file}. Shape: {data.shape}")
+#
+#         labels = np.load(labels_file, allow_pickle=True)
+#         print(f"Labels loaded successfully from {labels_file}. Shape: {labels.shape}")
+#
+#         return data, labels
+#     except FileNotFoundError as e:
+#         print(f"Error: {e}")
+#         return None, None
+#     except Exception as e:
+#         print(f"An unexpected error occurred: {e}")
+#         return None, None
 
-        labels = np.load(labels_file, allow_pickle=True)
-        print(f"Labels loaded successfully from {labels_file}. Shape: {labels.shape}")
 
-        return data, labels
-    except FileNotFoundError as e:
-        print(f"Error: {e}")
-        return None, None
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return None, None
+def load_data(config: Dict[str, Any]) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Reads the input data, either the already saved and preprocessed data if the file exits
+    and config.save_load_preprocessed data has been set to true, otherwise reads the raw data signals from data folder.
+
+    Each raw data are grouped together by person that the data belongs to. The raw signals are then preprocessed
+    to the desired data representation set in config.data_representation.
+
+    The shape of the returned array data array is:
+        time_series: n_people, n_samples, n_channels, n_times
+
+    The shape of the returned labels array is:
+        n_people, n_samples
+
+    :return: a tuple of 2 elements, where the first element is the preprocessed data
+     and the second is labels for each data sample
+    """
+    data = []
+    labels = []
+
+    preprocessed_data = file_manager.load_preprocessed_data(config)
+    if preprocessed_data[0] is not None:
+        return preprocessed_data
+
+    files_per_person = file_manager.group_input_files_per_person(config)
+
+    sampling_frequency = find_min_sampling_frequency(files_per_person)
+    personal_epochs = []
+    for i, person_files in enumerate(files_per_person):
+        if config['network_args']['num_classes'] == 3:
+            left = [left for left in person_files if left.movement_type.name is MovementType.LEFT.name]
+            right = [right for right in person_files if right.movement_type.name is MovementType.RIGHT.name]
+
+            left_epochs, left_labels = get_epochs(left, MovementType.LEFT.get_epoch_event(), sampling_frequency)
+            right_epochs, right_labels = get_epochs(right, MovementType.RIGHT.get_epoch_event(), sampling_frequency)
+
+            if left_epochs is None or right_epochs is None:
+                continue
+
+            # Dropping half of the epochs representing the resting state of the patient from each set, in order to
+            # try to maintain a balanced overall dataset where 1/3 is resting 1/3 is left movement and 1/3 is right
+            # movement, otherwise the resting state would be much larger than the movements
+            drop_half_resting(left_epochs)
+            left_labels = left_epochs.events[:, 2]
+            drop_half_resting(right_epochs)
+            right_labels = right_epochs.events[:, 2]
+
+            personal_epochs.append(mne.concatenate_epochs([left_epochs, right_epochs]))
+
+            left_data = transform_data_representation(left_epochs)
+            right_data = transform_data_representation(right_epochs)
+
+            data.append(np.concatenate((left_data, right_data)))
+            labels.append(np.concatenate((left_labels, right_labels)))
+
+        elif config['network_args']['num_classes'] == 2:
+            epochs, epochs_labels = get_epochs(person_files, EpochEvent.MOVEMENT_START, sampling_frequency)
+
+            if epochs is None:
+                continue
+
+            personal_epochs.append(epochs)
+
+            epochs_data = transform_data_representation(epochs)
+            data.append(epochs_data)
+            labels.append(epochs_labels)
+
+    data = np.array(data, dtype=object)
+    labels = np.array(labels, dtype=object)
+
+
+    file_manager.save_preprocessed_data(data, labels, config)
+
+    return data, labels
 
 
 def transform_labels(labels: np.ndarray) -> np.ndarray:
@@ -158,12 +243,8 @@ def main() -> None:
     # Configure GPU based on configuration
     config = load_config(args.config)
 
-    data_file, labels_file = get_data_path(config)
-    if data_file is None or labels_file is None:
-        print("Invalid data paths in configuration.")
-        sys.exit()
-
-    data, labels = load_npy_files(data_file, labels_file)
+    # Load data
+    data, labels = load_data(config)
 
     if data is not None and labels is not None:
         if config['strategy'] == "all":

@@ -12,13 +12,16 @@ import time
 factor_new = 1e-3
 init_block_size = 1000
 
-data_path = 'C:/FAV/FAV/3.rocnik/bakalarka/competition_data/BCICIV_2a_gdf'
-data_files = ['A0'+str(i)+'E.gdf' for i in range(1,10)]
+data_path = 'C:/FAV/FAV/3.rocnik/bakalarka/competition_data/BCICIV_2b_gdf'
+data_files = [['B0'+str(i)+'0'+str(j)+'E.gdf' for j in range(4,6)] for i in range(1,10)]
 
-label_path = 'C:/FAV/FAV/3.rocnik/bakalarka/Thienuv_navrh/EEG-TransNet-main/data/dataset/bci_iv_2a_mat_web'
-label_files = ['A0'+str(i)+'E.mat' for i in range(1,10)]
+label_path = '/EEG_TransNet_main/data/dataset/bci_iv_2b_mat'
+label_files = [['B0'+str(i)+'0'+str(j)+'E.mat' for j in range(4,6)] for i in range(1,10)]
 
-save_path = 'dataset/bci_iv_2a'
+save_path = 'dataset/bci_iv_2b/raw'
+
+if not os.path.exists(save_path):
+    os.makedirs(save_path)
 
 event_description = {'783':"CueUnknown"}
 
@@ -31,6 +34,12 @@ for file in data_files:
     # print(raw_events)
 
     raw_data = mne.io.RawArray(raw_data.get_data()*1e6, raw_data.info)
+
+    # 滤波4-38Hz
+    # start = time.time()
+    # raw_data.filter(4, 38, fir_design='firwin')
+    # end = time.time()
+    # print("Cost: ", end-start)
 
     raw_data.info['bads'] += ['EOG-left', 'EOG-central', 'EOG-right']
 
@@ -59,6 +68,4 @@ for file in label_files:
     true_label = scipy.io.loadmat(os.path.join(label_path, file))
     label = true_label['classlabel']
     np.save(os.path.join(save_path, file[:-4]+'_label.npy'), label)
-
-
 
