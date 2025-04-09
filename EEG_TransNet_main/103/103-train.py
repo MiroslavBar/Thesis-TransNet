@@ -6,10 +6,10 @@ import torch.nn as nn
 import torch.optim as optim
 import yaml
 
-from model.TransNet import TransNet
-from model.baseModel import baseModel
-from data.dataset import eegDataset
-from utils import *
+from EEG_TransNet_main.model.TransNet import TransNet
+from EEG_TransNet_main.model.baseModel import baseModel
+from EEG_TransNet_main.data.dataset import eegDataset
+from EEG_TransNet_main.utils import *
 
 
 # Function to load CSV data

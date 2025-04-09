@@ -1,13 +1,6 @@
 import mne
-from mne import event
-from mne import epochs
-from mne import label
-from mne.io.fiff import raw
 import numpy as np
-import matplotlib.pyplot as plt
-import scipy.io
 import os
-import time
 
 factor_new = 1e-3
 init_block_size = 1000
@@ -15,7 +8,7 @@ init_block_size = 1000
 data_path = 'C:/FAV/FAV/3.rocnik/bakalarka/competition_data/BCICIV_2a_gdf'
 data_files = ['A0'+str(i)+'T.gdf' for i in range(1,10)]
 
-save_path = 'dataset/bci_iv_2a'
+save_path = '../../competition_dataset/bci_iv_2a'
 
 event_description = {'769':"CueLeft", '770':"CueRight", '771':"CueFoot", '772':"CueTongue"}
 

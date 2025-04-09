@@ -1,13 +1,8 @@
 import mne
-from mne import event
-from mne import epochs
-from mne import label
-from mne.io.fiff import raw
 import numpy as np
-import matplotlib.pyplot as plt
 import scipy.io
 import os
-import time
+
 
 factor_new = 1e-3
 init_block_size = 1000
@@ -15,10 +10,10 @@ init_block_size = 1000
 data_path = 'C:/FAV/FAV/3.rocnik/bakalarka/competition_data/BCICIV_2a_gdf'
 data_files = ['A0'+str(i)+'E.gdf' for i in range(1,10)]
 
-label_path = '/EEG_TransNet_main/data/dataset/bci_iv_2a_mat_web'
+label_path = 'C:/FAV/FAV/3.rocnik/bakalarka/competition_data/BCICIV_2a_gdf'
 label_files = ['A0'+str(i)+'E.mat' for i in range(1,10)]
 
-save_path = 'dataset/bci_iv_2a'
+save_path = '../../competition_dataset/bci_iv_2a'
 
 event_description = {'783':"CueUnknown"}
 

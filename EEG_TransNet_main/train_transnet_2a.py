@@ -1,13 +1,6 @@
-import numpy as np
-import torch
 import torch.nn as nn
 import torch.optim as optim
-import numpy as np
-from visdom import Visdom
-from model.TransNet import TransNet
 from model.baseModel import baseModel
-import time
-import os
 import yaml
 from data.data_utils import *
 from data.dataset import eegDataset
@@ -72,7 +65,7 @@ def main(config):
         model.train_test(train_dataset, test_dataset)
 
 if __name__ == '__main__':
-    configFile = 'config/bciiv2a_transnet.yaml'
+    configFile = 'bciiv2a_transnet.yaml'
     file = open(configFile, 'r', encoding='utf-8')
     config = yaml.full_load(file)
     file.close()
