@@ -1,0 +1,36 @@
+#data
+csv_files: "../103_data/eegmmidb"  # The directory with the dataset
+
+#training
+label_conversion: "two_class_ME"  # Options: two_class_ME,
+#                                            two_class_MI,
+#                                            four_class_ME,
+#                                            four_class_MI,
+#                                            four_class_labels,
+#                                            two_class_labels
+
+strategy: "per_person"  # Options: "all", "per_person"
+batch_size: 64  # Number of samples processed before the model weights are updated
+epochs: 7  # Number of complete passes through the training dataset
+lr: 0.0002  # Learning rate for the optimizer, controls how quickly the model is adjusted during training
+preferred_device: gpu  # Preferred hardware for training: "gpu" or "cpu"
+nGPU: 0  # Specific GPU index to use if multiple GPUs are available (0 is typically the first GPU)
+num_samples: 700  # Number of time steps (samples) to use for each EEG trial
+
+#model
+network_args:
+  num_classes: 2
+  num_channels: 64
+  num_samples: 700
+  embed_dim: 32
+  pool_size: 50
+  pool_stride: 15
+  num_heads: 8
+  fc_ratio: 4
+  depth: 4
+  attn_drop: 0.5
+  fc_drop: 0.5
+
+# Data augmentation
+num_classes: 2
+num_segs: 5

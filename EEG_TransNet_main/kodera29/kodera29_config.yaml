@@ -1,0 +1,29 @@
+#data
+
+data_dir: "C:/FAV/FAV/3.rocnik/bakalarka/ZCU_dataset/data"  # The directory with the dataset
+
+#training
+strategy: "per_person"  # Options: "all", "per_person"
+batch_size: 128   # Number of samples processed before the model weights are updated
+epochs: 10  # Number of complete passes through the training dataset
+lr: 0.0001  # Learning rate for the optimizer, controls how quickly the model is adjusted during training
+preferred_device: gpu  # Preferred hardware for training: "gpu" or "cpu"
+nGPU: 0  # Specific GPU index to use if multiple GPUs are available (0 is typically the first GPU)
+
+#model
+network_args:
+  num_classes: 3
+  num_channels: 3
+  num_samples: 2000
+  embed_dim: 24
+  pool_size: 50
+  pool_stride: 20
+  num_heads: 8
+  fc_ratio: 4
+  depth: 3
+  attn_drop: 0.7
+  fc_drop: 0.7
+
+# Data augmentation
+num_classes: 3
+num_segs: 5
