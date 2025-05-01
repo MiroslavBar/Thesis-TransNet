@@ -6,6 +6,7 @@ from data.data_utils import *
 from data.dataset import eegDataset
 from utils import *
 import time
+from model.TransNet import TransNet
 torch.set_num_threads(10)
 def setRandom(seed):
     random.seed(seed)

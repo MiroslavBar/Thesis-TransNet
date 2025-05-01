@@ -1,5 +1,5 @@
 #data
-csv_files: "../103_data/eegmmidb"  # The directory with the dataset
+csv_files: "C:\\FAV\\FAV\\3.rocnik\\bakalarka\\103_data\\eegmmidb"  # The directory with the dataset
 
 #training
 label_conversion: "two_class_ME"  # Options: two_class_ME,

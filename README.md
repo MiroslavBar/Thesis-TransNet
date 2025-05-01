@@ -5,6 +5,7 @@ This repository contains code for training and evaluating a TransNet for EEG sig
 ## Prerequisites
 
 ### Installation
+This project uses Python 3.7
 
 The repository includes a `requirements.txt` file with all necessary dependencies. To install:
 
